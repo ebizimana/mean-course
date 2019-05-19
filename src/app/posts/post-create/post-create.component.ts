@@ -7,5 +7,8 @@ import { Component } from "@angular/core";
 })
 
 export class PostCreatComponent {
+  onAddPost(){
+    alert("I am here")
+  }
 
 }
