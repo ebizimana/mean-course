@@ -1,4 +1,5 @@
 <h2>Our First Post</h2>
-<textarea rows="6"></textarea>
+<textarea rows="6" [value]="newPost"></textarea>
 <hr>
 <button (click)="onAddPost()">Save Post</button>
+<p>{{ newPost }}</p>
