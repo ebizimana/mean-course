@@ -1,5 +1,5 @@
 <h2>Our First Post</h2>
-<textarea rows="6" [value]="newPost"></textarea>
+<textarea rows="6" [(ngModel)]="enteredValue"></textarea>
 <hr>
 <button (click)="onAddPost()">Save Post</button>
 <p>{{ newPost }}</p>
