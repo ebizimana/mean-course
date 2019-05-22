@@ -23,7 +23,7 @@ app.post('/api/post', (req,res,next)=>{
     message: 'Post added successfully'
   })
 })
-
+FbnDZnhf92Bd0wHA
 // Send data to client
 app.get('/api/post', (rex,res,next) => {
   const posts =[
