@@ -1,6 +1,17 @@
 const express = require('express');
 const bodyparser = require('body-parser')
+const mongoose = require('mongoose')
+
+const Post = require('./models/post')
 const app = express();
+
+mongoose.connect("mongodb+srv://elie:FbnDZnhf92Bd0wHA@cluster0-iyj4n.mongodb.net/node-angular?retryWrites=true",{useNewUrlParser: true})
+.then(() => {
+  console.log("Connected to database!")
+})
+.catch(()=>{
+  console.log("Connection to database failed")
+})
 
 // Get requests from two different servers
 app.use((req,res,next) => {
@@ -17,30 +28,25 @@ app.use(bodyparser.urlencoded({extended: false}))
 
 // Get Data from client
 app.post('/api/post', (req,res,next)=>{
-  const post = req.body;
-  console.log(post);
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
+  })
+  post.save()
   res.status(201).json({
     message: 'Post added successfully'
   })
 })
-FbnDZnhf92Bd0wHA
+
 // Send data to client
 app.get('/api/post', (rex,res,next) => {
-  const posts =[
-    {
-      id:'1i34u018340kj',
-      title: "First server-side post",
-      content: 'This is coming from the server'
-  },
-  {
-    id:'1i34u018340kj',
-    title: "Second server-side post",
-    content: 'This is coming from the server!!'
-}];
-res.status(200).json({
-  message:"Posts fetched successfully!",
-  posts: posts
-});
+  Post.find().then(documents =>{
+    res.status(200).json({
+      message:"Posts fetched successfully!",
+      posts: documents
+    });
+  })
+
 })
 
 module.exports = app;
