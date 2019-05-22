@@ -1,16 +1,31 @@
 const express = require('express');
+const bodyparser = require('body-parser')
 const app = express();
 
+// Get requests from two different servers
 app.use((req,res,next) => {
   res.setHeader('Access-Control-Allow-Origin','*')
-  res.setHeader('Access-Control-Allow-Header',
+  res.setHeader('Access-Control-Allow-Headers',
   'Origin, X-Requested-With, Content-Type, Accept')
   res.setHeader('Access-Control-Allow-Methods',
   'GET, POST, PATCH, DELETE, OPTIONS')
   next();
 })
 
-app.use('/api/post', (rex,res,next) => {
+app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({extended: false}))
+
+// Get Data from client
+app.post('/api/post', (req,res,next)=>{
+  const post = req.body;
+  console.log(post);
+  res.status(201).json({
+    message: 'Post added successfully'
+  })
+})
+
+// Send data to client
+app.get('/api/post', (rex,res,next) => {
   const posts =[
     {
       id:'1i34u018340kj',
