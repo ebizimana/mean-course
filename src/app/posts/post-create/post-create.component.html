@@ -3,14 +3,14 @@
     <mat-form-field>
         <input
         type="text" matInput
-        [ngModel]='post.title' #title="ngModel"
+        [ngModel]='post?.title' #title="ngModel"
         required name="title" placeholder="Post Title">
         <mat-error *ngIf="title.invalid">Please enter a post title</mat-error>
       </mat-form-field>
       <mat-form-field>
         <textarea
         matInput rows="4"
-        [ngModel]='post.content' #content="ngModel"
+        [ngModel]='post?.content' #content="ngModel"
         required name="content" placeholder="Post Content">
       </textarea>
         <mat-error *ngIf="content.invalid">Please enter content for your Post</mat-error>

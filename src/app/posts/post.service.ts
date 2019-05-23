@@ -37,7 +37,7 @@ export class PostsService {
 
   // Retrive one post by id
   getPost(postId: string) {
-    return {...this.posts.find(p => p.id === postId)};
+    return this.http.get<{_id: string, title: string, content: string}>('http://localhost:3000/api/post/' + postId);
   }
 
   // Update component that are subcribe to the posts array
@@ -59,9 +59,18 @@ export class PostsService {
 
   // Update a post with new content to the server
   updatePost(id: string, title: string, content: string) {
+    // Create a new Post
     const post: Post = {id: id, title: title, content: content};
+    // Update the server with the new post
     this.http.put('http://localhost:3000/api/post/' + id, post)
-    .subscribe(result => console.log(result));
+      // update the posts array and all subcribe components
+      .subscribe(result => {
+        const updatedPosts = [...this.posts];
+        const oldPostIndex = updatedPosts.findIndex(p => p.id === post.id);
+        updatedPosts[oldPostIndex] = post;
+        this.posts = updatedPosts;
+        this.postUpdated.next([...this.posts]);
+      });
   }
 
   deletePost(postId: string) {

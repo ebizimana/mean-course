@@ -26,7 +26,7 @@ app.use((req,res,next) => {
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: false}))
 
-// Get Data from client
+// Get a Post from client
 app.post('/api/post', (req,res,next)=>{
   const post = new Post({
     title: req.body.title,
@@ -40,7 +40,18 @@ app.post('/api/post', (req,res,next)=>{
   })
 })
 
-// Send data to client
+// Get Post by ID
+app.get('/api/post/:id',(req,res,next) => {
+  Post.findById(req.params.id).then(post => {
+    if(post){
+      res.status(200).json(post)
+    } else {
+      res.status(404).json({message: "Post not found!"})
+    }
+  })
+})
+
+// Send alll Posts from DB to client
 app.get('/api/post', (rex,res,next) => {
   Post.find().then(documents =>{
     res.status(200).json({
@@ -64,7 +75,7 @@ app.put('/api/post/:id',(req,res,next) => {
   })
 })
 
-// delete a post
+// delete a Post
 app.delete('/api/post/:id', (req,res,next) => {
   Post.deleteOne({_id: req.params.id}).then(result =>{
     console.log(result)
